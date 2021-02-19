@@ -7,7 +7,11 @@ Class {
 { #category : #accessing }
 BaselineOfCodingLog >> baseline: spec [
 	<baseline>
-	spec for: #common do: [ spec package: 'CodingLog' ]
+	spec
+		for: #common
+		do: [ spec
+				package: 'CodingLog';
+				package: 'GToolkit-Coder-UI' ]
 ]
 
 { #category : #accessing }
