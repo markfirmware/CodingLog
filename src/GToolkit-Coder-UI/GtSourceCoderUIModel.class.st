@@ -49,9 +49,6 @@ GtSourceCoderUIModel >> expanded [
 GtSourceCoderUIModel >> expanded: aBoolean [
 	expanded := aBoolean.
     self expanded ifTrue: [
-    	(Smalltalk at: #HaltOnce ifAbsent: [ false ])ifTrue: [
-    		Smalltalk at: #HaltOnce put:  false.
-    		self halt ].
     	self coder class name == #GtPharoSnippetCoder ifTrue: [
     		^self ].
     	[ (CodingLogMethodSignal
