@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #accessing }
+CodingLogger class >> example [
+	^ self new startFor: CodingLogSignal
+]
+
+{ #category : #accessing }
 CodingLogger >> gtRecordingsFor: aView [
 	<gtView>
 	^ aView columnedList
