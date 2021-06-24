@@ -10,11 +10,5 @@ BaselineOfCodingLog >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
-				package: 'CodingLog';
-				package: 'GToolkit-Coder-UI' ]
-]
-
-{ #category : #accessing }
-BaselineOfCodingLog >> projectClass [
-	^ MetacelloCypressBaselineProject
+				package: 'CodingLog' ]
 ]

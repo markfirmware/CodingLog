@@ -1,13 +1,16 @@
 #!/bin/bash
 
-VERSION=v0.8.522
-GLAM=GlamorousToolkitLinux64-$VERSION
+GLAM_VERSION=$(curl -s https://dl.feenk.com/gt/GlamorousToolkitLinux64-release)
+GLAM_VERSION=${GLAM_VERSION/*-/}
+GLAM_VERSION=${GLAM_VERSION/.zip/}
+
+GLAM=GlamorousToolkitLinux64-$GLAM_VERSION
 
 if [[ ! -d $GLAM ]]
 then
     echo
     echo installing $GLAM ...
-    wget -q https://dl.feenk.com/gt/GlamorousToolkitLinux64-$VERSION.zip
+    wget -q https://dl.feenk.com/gt/GlamorousToolkitLinux64-$GLAM_VERSION.zip
     unzip -q Glamorous*.zip
     rm Glamorous*.zip
 fi
@@ -19,7 +22,7 @@ pushd $GLAM >& /dev/null
     then
         echo need updated libstdc++
         echo
-        read -p "instsll ? " -n 1 -r
+        read -p "install ? " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]
         then

@@ -1,4 +1,4 @@
-image: markformware/workspace-bionic-full-vnc-gtoolkit
+image: markformware/workspace-base-bionic-vnc-gtoolkit
 
 ports:
   - port: 5900
@@ -8,4 +8,4 @@ ports:
 
 tasks:
   - name: gtoolkit
-    command: ./mold
+    command: ./gtoolkit
