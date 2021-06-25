@@ -1,6 +1,6 @@
 Class {
 	#name : #CodingLogMethodSignal,
-	#superclass : #CodingLogSignal,
+	#superclass : #BeaconSignal,
 	#instVars : [
 		'method'
 	],

@@ -32,15 +32,24 @@ CodingLogger >> gtRecordingsFor: aView [
 
 { #category : #accessing }
 CodingLogger >> methods [
-	| methodsFilter |
-	methodsFilter := GtSearchIFixedMethodsFilter new.
-	self recordings do: [ :each |
-		(methodsFilter includesMethod: each method) not ifTrue: [
-			methodsFilter methods add: each method ] ].
-	^ methodsFilter
+	^ GtSearchIFixedMethodsFilter new methods:
+		(self recordings collect: [:each | each method]) asIdentitySet asOrderedCollection
+]
+
+{ #category : #accessing }
+CodingLogger >> patch: classWithPatch selector: selector [
+	| classWithStatusQuo classToPatch |
+	classWithStatusQuo := classWithPatch superclass.
+	classToPatch := classWithStatusQuo superclass.
+    (classToPatch >> selector) sourceCode
+    	= (classWithStatusQuo >> selector) sourceCode
+    		ifTrue: [
+    			classToPatch compile: (classWithPatch >> selector) sourceCode
+    		]
 ]
 
 { #category : #registering }
 CodingLogger >> start [
-	self startFor: CodingLogSignal
+	self patch: CodingLogGtTextualCoderViewModel selector: #expanded:.
+	self startFor: CodingLogMethodSignal
 ]
