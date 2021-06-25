@@ -325,22 +325,12 @@ GtTextualCoderViewModel >> expanded [
 
 { #category : #'api - expansion' }
 GtTextualCoderViewModel >> expanded: aBoolean [
-        expanded = aBoolean
-                ifTrue: [ ^ self ].
+	expanded = aBoolean
+		ifTrue: [ ^ self ].
     expanded := aBoolean.
-    self expanded ifTrue: [
-        self coder class name == #GtPharoSnippetCoder ifTrue: [
-                ^self ].
-        [ (CodingLogMethodSignal
-                class: self coder compiledMethod classBinding
-                selector: self coder compiledMethod selector) emit ]
-                        on: Exception
-                        do: [:ex | CodingLogErrorSignal emit:
-                                (OrderedCollection
-                                        with: #exceptionDuringSignal
-                                        with: self class name
-                                        with: self coder class name) ] ].
-        self notifyExpansionChanged: expanded
+    (self expanded and: [ self coder class name ~~ #GtPharoSnippetCoder ] ) ifTrue: [
+        (CodingLogMethodSignal method: self coder compiledMethod) emit ].
+	self notifyExpansionChanged: expanded
 
 ]
 
