@@ -11,4 +11,4 @@ Load the code:
 
 Then inspect this in a playground:
 
-    CodingLogger start
+    CodingLogger example
