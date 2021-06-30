@@ -2,7 +2,9 @@ Class {
 	#name : #CodingLogMethodSignal,
 	#superclass : #BeaconSignal,
 	#instVars : [
-		'method'
+		'selector',
+		'classIsMeta',
+		'className'
 	],
 	#category : #CodingLog
 }
@@ -13,16 +15,35 @@ CodingLogMethodSignal class >> method: aMethod [
 ]
 
 { #category : #accessing }
+CodingLogMethodSignal >> classIsMeta [
+	^ classIsMeta
+]
+
+{ #category : #accessing }
+CodingLogMethodSignal >> className [
+	^ className
+]
+
+{ #category : #accessing }
 CodingLogMethodSignal >> method [
-	^ method
+	^ (classIsMeta
+		ifTrue: [ (Smalltalk at: className) class ]
+	ifFalse: [ (Smalltalk at: className) ]) methodNamed: selector
 ]
 
 { #category : #accessing }
 CodingLogMethodSignal >> method: aMethod [
-	method := aMethod
+	className := aMethod methodClass instanceSide name.
+	classIsMeta := aMethod methodClass isMeta.
+	selector := aMethod selector
 ]
 
 { #category : #accessing }
 CodingLogMethodSignal >> printOneLineContentsOn: stream [
-	stream nextPutAll: method printString
+	stream nextPutAll: self method printString
+]
+
+{ #category : #accessing }
+CodingLogMethodSignal >> selector [
+	^ selector
 ]

@@ -5,8 +5,14 @@ Class {
 }
 
 { #category : #accessing }
-CodingLogger class >> example [
-	^ self new start
+CodingLogger class >> initialize [
+	[ instance := self fromStonFile: (FileSystem workingDirectory parent lastFileFor: self name extension: 'stgz')
+	] on: Error
+	do: [].
+	self writeFilename: self name, '.stgz'.
+	self writePeriod: 5 minutes.
+	self start.
+	self startAutoSaving
 ]
 
 { #category : #accessing }
@@ -37,19 +43,27 @@ CodingLogger >> methods [
 ]
 
 { #category : #accessing }
-CodingLogger >> patch: classWithPatch selector: selector [
-	| classWithStatusQuo classToPatch |
-	classWithStatusQuo := classWithPatch superclass.
-	classToPatch := classWithStatusQuo superclass.
-    (classToPatch >> selector) sourceCode
-    	= (classWithStatusQuo >> selector) sourceCode
-    		ifTrue: [
-    			classToPatch compile: (classWithPatch >> selector) sourceCode
+CodingLogger >> patchClassesWithPatches: classesWithPatches [
+	| withClassSideToo |
+	withClassSideToo := classesWithPatches , (classesWithPatches collect: [ :each | each class ]).
+	withClassSideToo do: [ :classWithPatches | | classWithStatusQuo classToPatch |
+		classWithStatusQuo := classWithPatches superclass.
+		classToPatch := classWithStatusQuo superclass.
+		classWithPatches methods do: [ :method | | selector |
+			selector := method selector.
+    		(classToPatch >> selector) sourceCode = (classWithStatusQuo >> selector) sourceCode ifFalse: [
+    			^ self
     		]
+    	].
+		classWithPatches methods do: [ :method | | selector |
+			selector := method selector.
+    		classToPatch compile: (classWithPatches >> selector) sourceCode
+    	]
+    ]
 ]
 
 { #category : #registering }
 CodingLogger >> start [
-	self patch: CodingLogGtTextualCoderViewModel selector: #expanded:.
+	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel }.
 	self startFor: CodingLogMethodSignal
 ]
