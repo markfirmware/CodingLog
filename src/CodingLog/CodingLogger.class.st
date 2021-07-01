@@ -5,14 +5,38 @@ Class {
 }
 
 { #category : #accessing }
+CodingLogger class >> eraseInstanceRecordings [
+	^ self instance reset
+]
+
+{ #category : #accessing }
 CodingLogger class >> initialize [
-	[ instance := self fromStonFile: (FileSystem workingDirectory parent lastFileFor: self name extension: 'stgz')
-	] on: Error
-	do: [].
-	self writeFilename: self name, '.stgz'.
-	self writePeriod: 5 minutes.
-	self start.
-	self startAutoSaving
+	self start
+]
+
+{ #category : #accessing }
+CodingLogger class >> instance [
+	instance ifNil: [
+		instance := self withRecordings: (STON fromString: self savedRecordingsSton).
+		instance name: 'The Coding Log'
+	].
+	^ super instance
+]
+
+{ #category : #accessing }
+CodingLogger class >> saveRecordings [
+	^ self class >> (self class compile: 'savedRecordingsSton', String cr, String tab, '^ ', (STON toString: self instance recordings) printString)
+]
+
+{ #category : #accessing }
+CodingLogger class >> savedRecordingsSton [
+	^ 'OrderedCollection[]'
+]
+
+{ #category : #accessing }
+CodingLogger >> gtGroupedFor: aView [
+	<gtView>
+	^ aView empty
 ]
 
 { #category : #accessing }
@@ -39,7 +63,14 @@ CodingLogger >> gtRecordingsFor: aView [
 { #category : #accessing }
 CodingLogger >> methods [
 	^ GtSearchIFixedMethodsFilter new methods:
-		(self recordings collect: [:each | each method]) asIdentitySet asOrderedCollection
+		((self recordings select: [:each | (each isKindOf: CodingLogMethodNotFound) not and: [ each expanded ] ]) collect: [:each | each method]) asIdentitySet asOrderedCollection
+]
+
+{ #category : #accessing }
+CodingLogger >> nextPut: aSignal [
+	aSignal expanded ifTrue: [
+		super nextPut: aSignal
+	]
 ]
 
 { #category : #accessing }

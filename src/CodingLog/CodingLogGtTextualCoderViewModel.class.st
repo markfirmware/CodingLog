@@ -10,7 +10,7 @@ CodingLogGtTextualCoderViewModel >> expanded: aBoolean [
 		ifTrue: [ ^ self ].
 
 	expanded := aBoolean.
-	(expanded and: [ self coder compiledMethod notNil ]) ifTrue: [
-		(CodingLogMethodSignal method: self coder compiledMethod) emit ].
+	((self coder respondsTo: #compiledMethod) and: [ self coder compiledMethod notNil ]) ifTrue: [
+		(CodingLogMethodSignal method: self coder compiledMethod expanded: aBoolean) emit ].
 	self notifyExpansionChanged: expanded
 ]
