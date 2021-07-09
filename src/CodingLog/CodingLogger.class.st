@@ -63,7 +63,7 @@ CodingLogger >> gtRecordingsFor: aView [
 { #category : #accessing }
 CodingLogger >> methods [
 	^ GtSearchIFixedMethodsFilter new methods:
-		((self recordings select: [:each | (each isKindOf: CodingLogMethodNotFound) not and: [ each expanded ] ]) collect: [:each | each method]) asIdentitySet asOrderedCollection
+		((self recordings select: [:each | each compiledMethodExists and: [ each expanded ] ]) collect: [:each | each compiledMethod ]) asIdentitySet asOrderedCollection
 ]
 
 { #category : #accessing }

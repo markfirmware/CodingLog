@@ -30,6 +30,24 @@ CodingLogMethodSignal >> className: aSymbol [
 ]
 
 { #category : #accessing }
+CodingLogMethodSignal >> compiledMethod [
+	| class |
+	class := Smalltalk at: self className.
+	self classIsMeta ifTrue: [
+		class := class class
+	].
+	^ class methodNamed: self selector
+]
+
+{ #category : #accessing }
+CodingLogMethodSignal >> compiledMethodExists [
+	[ self compiledMethod]
+		on: Exception
+		do: [ :ex | ^ false ].
+	^ true
+]
+
+{ #category : #accessing }
 CodingLogMethodSignal >> expanded [
 	^ self properties at: #expanded
 ]
@@ -42,26 +60,14 @@ CodingLogMethodSignal >> expanded: aBoolean [
 { #category : #accessing }
 CodingLogMethodSignal >> gtMethodFor: aView [ 
 	<gtView>
-	| method |
-	method := self method.
-	(method isKindOf: CodingLogMethodNotFound) ifTrue: [
+	self compiledMethodExists ifFalse: [
 		^ aView empty
 	].
 	^ aView forward
 		priority: 0;
 		title: 'Method';
-		object: [ GtSearchIFixedMethodsFilter new methods: (OrderedCollection with: method) ];
+		object: [ GtSearchIFixedMethodsFilter new methods: (OrderedCollection with: self compiledMethod) ];
 		view: #gtItemsFor:
-]
-
-{ #category : #accessing }
-CodingLogMethodSignal >> method [
-	^ [ (self classIsMeta
-		ifTrue: [ (Smalltalk at: self className) class ]
-	ifFalse: [ (Smalltalk at: self className) ]) methodNamed: self selector
-	] on: Exception do: [:e |
-		CodingLogMethodNotFound fromSignal: self
-	]
 ]
 
 { #category : #accessing }
@@ -74,7 +80,15 @@ CodingLogMethodSignal >> method: aMethod expanded: aBoolean [
 
 { #category : #accessing }
 CodingLogMethodSignal >> printOneLineContentsOn: stream [
-	stream nextPutAll: self method printString
+	self compiledMethodExists ifTrue: [
+		stream nextPutAll: self compiledMethod printString
+	] ifFalse: [
+		stream nextPutAll: 'Not found: ';
+			nextPutAll: self className;
+			nextPutAll: (self classIsMeta ifTrue: [' class'] ifFalse: [ '' ]);
+			nextPutAll: '>>';
+			nextPutAll: self selector
+	]
 ]
 
 { #category : #accessing }
