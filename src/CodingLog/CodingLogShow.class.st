@@ -31,11 +31,23 @@ CodingLogShow >> methodsSlideFor: aSlide [
 ]
 
 { #category : #accessing }
+CodingLogShow >> newsSlideFor: aSlide [
+	<gtSlide>
+	^ aSlide labelAndElement
+		priority: 25;
+		newFadedText: 'The News view shows a time line of the first time a method has been viewed';
+		element: [ 
+			GtPlaygroundLiveSlide new
+				newSnippetFromMethod: self class>>#codingLoggerInstance
+		]
+]
+
+{ #category : #accessing }
 CodingLogShow >> recordingsSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide labelAndElement
 		priority: 10;
-		newFadedText: 'The Recordings view shows the methods that been expanded';
+		newFadedText: 'The Recordings view shows the methods that have been expanded';
 		element: [ 
 			GtPlaygroundLiveSlide new
 				newSnippetFromMethod: self class>>#codingLoggerInstance;

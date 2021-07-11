@@ -1,13 +1,8 @@
 Class {
 	#name : #CodingLogMethodSignal,
-	#superclass : #BeaconSignal,
+	#superclass : #CodingLogSignal,
 	#category : #CodingLog
 }
-
-{ #category : #accessing }
-CodingLogMethodSignal class >> method: aMethod expanded: aBoolean [
-	^ self new method: aMethod expanded: aBoolean
-]
 
 { #category : #accessing }
 CodingLogMethodSignal >> classIsMeta [
@@ -71,6 +66,11 @@ CodingLogMethodSignal >> gtMethodFor: aView [
 ]
 
 { #category : #accessing }
+CodingLogMethodSignal >> isMethodSignal [
+	^ true
+]
+
+{ #category : #accessing }
 CodingLogMethodSignal >> method: aMethod expanded: aBoolean [
 	self className:  aMethod methodClass instanceSide name.
 	self classIsMeta: aMethod methodClass isMeta.
@@ -79,15 +79,24 @@ CodingLogMethodSignal >> method: aMethod expanded: aBoolean [
 ]
 
 { #category : #accessing }
+CodingLogMethodSignal >> printMethod [
+	^ String streamContents: [ :s | self printMethodOn: s ]
+]
+
+{ #category : #accessing }
+CodingLogMethodSignal >> printMethodOn: stream [
+	stream nextPutAll: self className;
+	nextPutAll: (self classIsMeta ifTrue: [' class'] ifFalse: [ '' ]);
+	nextPutAll: '>>';	nextPutAll: self selector
+]
+
+{ #category : #accessing }
 CodingLogMethodSignal >> printOneLineContentsOn: stream [
 	self compiledMethodExists ifTrue: [
 		stream nextPutAll: self compiledMethod printString
 	] ifFalse: [
-		stream nextPutAll: 'Not found: ';
-			nextPutAll: self className;
-			nextPutAll: (self classIsMeta ifTrue: [' class'] ifFalse: [ '' ]);
-			nextPutAll: '>>';
-			nextPutAll: self selector
+		stream nextPutAll: 'Not found: '.
+		self printMethodOn: stream
 	]
 ]
 
