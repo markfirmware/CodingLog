@@ -1,23 +1,24 @@
 #!/bin/bash
 
-GLAM_VERSION=$(curl -s https://dl.feenk.com/gt/GlamorousToolkitLinux64-release)
-GLAM_VERSION=${GLAM_VERSION/*-/}
-GLAM_VERSION=${GLAM_VERSION/.zip/}
+GLAM_ZIP=$(curl -s https://dl.feenk.com/gt/GlamorousToolkitLinux64-release)
+GLAM_DIR=${GLAM_ZIP/.zip/}
+GLAM_VERSION=${GLAM_DIR/*-/}
 
-GLAM=GlamorousToolkitLinux64-$GLAM_VERSION
-
-if [[ ! -d $GLAM ]]
+if [[ ! -d $GLAM_DIR ]]
 then
     echo
-    echo installing $GLAM ...
-    wget -q https://dl.feenk.com/gt/GlamorousToolkitLinux64-$GLAM_VERSION.zip
-    unzip -q Glamorous*.zip
-    rm Glamorous*.zip
+    echo installing $GLAM_DIR ...
+    wget -q https://dl.feenk.com/gt/$GLAM_ZIP
+    mkdir $GLAM_DIR
+    pushd $GLAM_DIR >& /dev/null
+        unzip -q ../$GLAM_ZIP
+    popd >& /dev/null
+    rm $GLAM_ZIP
 fi
 
-pushd $GLAM >& /dev/null
+pushd $GLAM_DIR >& /dev/null
 
-    MISSING=$(ldd libSkia.so | grep "not found")
+    MISSING=$(ldd lib/libSkia.so | grep "not found")
     if [[ "$MISSING" != "" ]]
     then
         echo need updated libstdc++
@@ -36,8 +37,8 @@ pushd $GLAM >& /dev/null
    fi
     
    echo
-   echo starting $GLAM
-   ./glamoroustoolkit GlamorousToolkit.image st ../load.st --no-quit --interactive
+   echo starting $GLAM_VERSION
+   ./bin/GlamorousToolkit-cli --interactive GlamorousToolkit.image st ../load.st
 
 popd >& /dev/null
 

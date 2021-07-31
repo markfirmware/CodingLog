@@ -136,9 +136,11 @@ CodingLogger >> news: someNews [
 CodingLogger >> nextPut: aSignal [
 	(aSignal isMethodSignal not or: [ aSignal expanded ]) ifTrue: [ | key |
 		super nextPut: aSignal.
-		key := aSignal compiledMethod printString.
-		(news includesKey: key) ifFalse: [
-			news at: key put: aSignal
+		aSignal compiledMethodExists ifTrue: [
+			key := aSignal compiledMethod printString.
+			(news includesKey: key) ifFalse: [
+				news at: key put: aSignal
+			]
 		]
 	]
 ]
