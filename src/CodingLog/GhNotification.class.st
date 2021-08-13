@@ -1,18 +1,18 @@
 Class {
-	#name : #GhNotification,
-	#superclass : #Object,
+	#name : 'GhNotification',
+	#superclass : 'Object',
 	#instVars : [
 		'data'
 	],
-	#category : #'CodingLog-CodingLog'
+	#category : 'CodingLog-CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> data: dictionary [
 	data := dictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> gtDismissNotificationActionFor: anAction [
 	<gtAction>
 	self unread ifFalse: [ ^ anAction ].
@@ -23,7 +23,7 @@ GhNotification >> gtDismissNotificationActionFor: anAction [
 		action: [ :aButton | self requestDismissal ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> gtDisplayOn: stream [
 	stream
 		nextPutAll: self updatedAt printString;
@@ -33,17 +33,17 @@ GhNotification >> gtDisplayOn: stream [
 		nextPutAll: self subjectTitle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> requestDismissal [
 	GhSession patch: self url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> subject [
 	^ data at: #subject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> subjectInstance [
 	| aClass |
 	aClass := GhNode.
@@ -51,32 +51,32 @@ GhNotification >> subjectInstance [
 	^ (GhSession getDictionary: self subjectUrl of: aClass)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> subjectTitle [
 	^ self subject at: #title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> subjectType [
 	^self subject at: #type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> subjectUrl [
 	^ self subject at: #url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> unread [
 	^ data at: #unread
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> updatedAt [
 	^ (data at: #updated_at) asDateAndTime asLocal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNotification >> url [
 	^ data at: #url
 ]

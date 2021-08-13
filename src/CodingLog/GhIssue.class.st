@@ -1,28 +1,28 @@
 Class {
-	#name : #GhIssue,
-	#superclass : #Object,
+	#name : 'GhIssue',
+	#superclass : 'Object',
 	#instVars : [
 		'data'
 	],
-	#category : #'CodingLog-CodingLog'
+	#category : 'CodingLog-CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> body [
 	^ data at: #body
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> commentsUrl [
 	^ data at: #comments_url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> data: dictionary [
 	data := dictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> gtActionWebBrowseFor: anAction [
 	<gtAction>
 	|  button |
@@ -36,12 +36,12 @@ GhIssue >> gtActionWebBrowseFor: anAction [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> gtDisplayOn: stream [
 	stream nextPutAll: self title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> gtOverviewFor: aView [
 	<gtView>
 	^ aView list
@@ -55,22 +55,22 @@ GhIssue >> gtOverviewFor: aView [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> htmlUrl [
 	^ data at: #html_url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> state [
 	^ data at: #state
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> title [
 	^ data at: #title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhIssue >> updatedAt [
 	^ (data at: #updated_at) asDateAndTime asLocal
 ]

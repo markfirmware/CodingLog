@@ -1,6 +1,6 @@
-Extension { #name : #GtPharoMethodCoder }
+Extension { #name : 'GtPharoMethodCoder' }
 
-{ #category : #'*CodingLog' }
+{ #category : '*CodingLog' }
 GtPharoMethodCoder >> hideAddOnsFor: anAST into: coderAddOns [
 	<gtAstCoderAddOns: 1>
 

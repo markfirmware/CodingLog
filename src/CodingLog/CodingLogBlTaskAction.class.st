@@ -1,10 +1,10 @@
 Class {
-	#name : #CodingLogBlTaskAction,
-	#superclass : #CodingLogBlTaskActionStatusQuo,
-	#category : #CodingLog
+	#name : 'CodingLogBlTaskAction',
+	#superclass : 'CodingLogBlTaskActionStatusQuo',
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogBlTaskAction >> run [
 	CodingLogger print: self action.
 	self action isClosure

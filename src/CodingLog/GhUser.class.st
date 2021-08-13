@@ -1,18 +1,18 @@
 Class {
-	#name : #GhUser,
-	#superclass : #Object,
+	#name : 'GhUser',
+	#superclass : 'Object',
 	#instVars : [
 		'data'
 	],
-	#category : #CodingLog
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> data: dictionary [
 	data := dictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> gtDisplayRunOn: stream [
 	| status |
 	status := self rawData at: #status.
@@ -22,7 +22,7 @@ GhUser >> gtDisplayRunOn: stream [
 		nextPutAll: (status = 'completed' ifTrue: [(self rawData at: #conclusion)] ifFalse: [status])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> gtEventsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -41,7 +41,7 @@ GhUser >> gtEventsFor: aView [
 		column: 'Actor' text: [ :each | each at: #actor at: #display_login ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> gtNotificationsFor: aView [
 	<gtView>
 	^ aView list
@@ -54,7 +54,7 @@ GhUser >> gtNotificationsFor: aView [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> gtOpenIssuesFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -66,7 +66,7 @@ GhUser >> gtOpenIssuesFor: aView [
 		column: 'Title' text: #title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> gtReposFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -79,13 +79,13 @@ GhUser >> gtReposFor: aView [
 		column: 'Open issues' text: [ :each | each at: #open_issues_count ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> repos [
 	^ (GhSession getArray: 'user/repos')
 		sorted: [ :a :b | (a at: #name) asLowercase < (b at: #name) asLowercase ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhUser >> userName [
 	^ data at: #login
 ]

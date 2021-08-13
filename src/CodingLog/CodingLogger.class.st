@@ -1,24 +1,24 @@
 Class {
-	#name : #CodingLogger,
-	#superclass : #MemoryLogger,
+	#name : 'CodingLogger',
+	#superclass : 'MemoryLogger',
 	#instVars : [
 		'hidden',
 		'news'
 	],
-	#category : #CodingLog
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> eraseInstanceRecordings [
 	^ self instance reset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> initialize [
 	self start
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> instance [
 	instance ifNil: [
 		instance := self withRecordings: (STON fromString: self savedRecordingsSton).
@@ -28,43 +28,43 @@ CodingLogger class >> instance [
 	^ super instance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> method: aMethod expanded: aBoolean [
 	CodingLogMethodSignal new method: aMethod expanded: aBoolean; emit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> print: anObject [
 	CodingLogSignal new print: anObject; emit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> saveNews [
 	^ self class >> (self class compile: 'savedNewsSton', String cr, String tab, '^ ', (STON toString: self instance news) printString)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> saveRecordings [
 	^ self class >> (self class compile: 'savedRecordingsSton', String cr, String tab, '^ ', (STON toString: self instance recordings) printString)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> savedNewsSton [
 	^ 'OrderedDictionary{}'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger class >> savedRecordingsSton [
 	^ 'OrderedCollection[]'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> gtGroupedFor: aView [
 	<gtView>
 	^ aView empty
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> gtMethodsFor: aView [ 
 	<gtView>
 	^ aView forward
@@ -73,7 +73,7 @@ CodingLogger >> gtMethodsFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> gtNewsFor: aView [ 
 	<gtView>
 	^ aView columnedList
@@ -81,10 +81,10 @@ CodingLogger >> gtNewsFor: aView [
 		priority: 50;
 		items: [ self news values reverse ];
 		column: 'Contents' translated 
-			item: [ :each | 'markfirmware first viewed ', each printMethod, ' on ', each timestamp asDate printString, ' at ', each timestamp asTime print24 ]
+			item: [ :each | each timestamp asDate printString , ' ' , each timestamp asTime print24 , ' markfirmware first viewed ', each printMethod ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> gtRecordingsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -96,7 +96,7 @@ CodingLogger >> gtRecordingsFor: aView [
 			item: [ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> gtSaveNewsActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -106,33 +106,33 @@ CodingLogger >> gtSaveNewsActionFor: anAction [
 		action: [ :aButton | self class saveNews ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> hide: aMethod [
 	hidden add: aMethod printString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> isHidden: aMethod [
 	^ hidden includes: aMethod printString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> methods [
 	^ GtSearchIFixedMethodsFilter new methods:
 		((self recordings select: [:each | each isMethodSignal and: [ each compiledMethodExists and: [ each expanded and: [ (self isHidden: each compiledMethod) not ] ] ] ]) collect: [:each | each compiledMethod ]) asIdentitySet asOrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> news [
 	^ news
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> news: someNews [
 	news := someNews
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> nextPut: aSignal [
 	(aSignal isMethodSignal not or: [ aSignal expanded ]) ifTrue: [ | key |
 		super nextPut: aSignal.
@@ -145,7 +145,7 @@ CodingLogger >> nextPut: aSignal [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> patchClassesWithPatches: classesWithPatches [
 	| withClassSideToo |
 	withClassSideToo := classesWithPatches , (classesWithPatches collect: [ :each | each class ]).
@@ -165,7 +165,7 @@ CodingLogger >> patchClassesWithPatches: classesWithPatches [
     ]
 ]
 
-{ #category : #registering }
+{ #category : 'registering' }
 CodingLogger >> start [
 	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel }.
 	hidden := Set new.
@@ -173,7 +173,7 @@ CodingLogger >> start [
 	self startFor: CodingLogSignal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogger >> unhide: aMethod [
 	hidden remove: aMethod printString ifAbsent: []
 ]

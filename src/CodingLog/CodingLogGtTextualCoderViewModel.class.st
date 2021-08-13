@@ -1,10 +1,10 @@
 Class {
-	#name : #CodingLogGtTextualCoderViewModel,
-	#superclass : #CodingLogGtTextualCoderViewModelStatusQuo,
-	#category : #CodingLog
+	#name : 'CodingLogGtTextualCoderViewModel',
+	#superclass : 'CodingLogGtTextualCoderViewModelStatusQuo',
+	#category : 'CodingLog'
 }
 
-{ #category : #'api - expansion' }
+{ #category : 'api - expansion' }
 CodingLogGtTextualCoderViewModel >> expanded: aBoolean [
 	expanded = aBoolean
 		ifTrue: [ ^ self ].

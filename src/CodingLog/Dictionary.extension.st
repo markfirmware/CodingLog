@@ -1,6 +1,6 @@
-Extension { #name : #Dictionary }
+Extension { #name : 'Dictionary' }
 
-{ #category : #'*CodingLog' }
+{ #category : '*CodingLog' }
 Dictionary >> at: firstKey at: secondKey at: thirdKey ifAbsent: aZeroArgBlock [
 		"Return the object stored in the second dictionary at secondKey. The second dictionary is accessed via the key firstKey. Execute aZeroArgBlock in case one of the key is wrong."
 		

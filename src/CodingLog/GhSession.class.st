@@ -1,40 +1,40 @@
 Class {
-	#name : #GhSession,
-	#superclass : #Object,
+	#name : 'GhSession',
+	#superclass : 'Object',
 	#classInstVars : [
 		'cache',
 		'token'
 	],
-	#category : #CodingLog
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> apiPrefix [
 	^ 'https://api.github.com/'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> client [
 	| client |
 	client := ZnClient new
-		accept: (ZnMimeType main: 'application' sub: 'vnd.github.v3+json').
+		accept: 'application/vnd.github.v3+json,application/vnd.github.baptiste-preview+json'.
 	token notNil ifTrue: [
 		client headerAt: 'Authorization' put: 'token ' , token
 	].
 	^ client
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> defaultPageSize [
 	^ 30
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> fullUrl: path [
 	^ (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> get: path [
 	| url |
 	url := self fullUrl: path.
@@ -70,19 +70,19 @@ GhSession class >> get: path [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> getArray: path [
 	| url |
 	url := self fullUrl: path.
 	^ cache at: url ifAbsentPut: [ self items: url ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> getArray: path of: aClass sortKey: selector [ 
 	^ ((self getArray: path) collect: [ :each | aClass new data: each ]) sorted: [ :a :b | (a perform: selector) > (b perform: selector) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> getDictionary: path [
 	| url |
 	url := self fullUrl: path.
@@ -97,23 +97,23 @@ GhSession class >> getDictionary: path [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> getDictionary: path of: aClass [
 	^ aClass new data: (self getDictionary: path)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> initialize [
 	super initialize.
 	cache := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> items: url [
 	^ self items: OrderedCollection new pageNumber: 1 url: url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> items: items pageNumber: pageNumber url: url [
 	| marker |
 	marker := (url findString: '?') = 0 ifTrue: ['?'] ifFalse: ['&'].
@@ -139,12 +139,12 @@ GhSession class >> items: items pageNumber: pageNumber url: url [
 		onError: [ :e | self halt. items asArray ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> pageSize [
 	^ 100
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> patch: path [
 	| url |
 	url := (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path].
@@ -153,24 +153,24 @@ GhSession class >> patch: path [
 		patch
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> purge [
 	cache removeAll
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> purge: path [
 	| url |
 	url := (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path].
 	cache removeKey: url ifAbsent: []
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> token: aToken [
 	token := aToken
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhSession class >> user [
 	^ self getDictionary: 'user'
 ]

@@ -1,10 +1,10 @@
 Class {
-	#name : #CodingLogBlTaskActionStatusQuo,
-	#superclass : #BlTaskAction,
-	#category : #CodingLog
+	#name : 'CodingLogBlTaskActionStatusQuo',
+	#superclass : 'BlTaskAction',
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogBlTaskActionStatusQuo >> run [
 	self action isClosure
 		ifTrue: [ self action cull: self ]

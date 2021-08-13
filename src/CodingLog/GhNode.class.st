@@ -1,24 +1,24 @@
 Class {
-	#name : #GhNode,
-	#superclass : #Object,
+	#name : 'GhNode',
+	#superclass : 'Object',
 	#instVars : [
 		'data'
 	],
-	#category : #CodingLog
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode class >> user [
 	^ self new data: (GhSession user)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> arrayView: aView [
 	^ aView list
 		items: data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> data: someData [
 	data := someData isArray ifTrue: [
 		(someData collect: [ :each |
@@ -29,7 +29,7 @@ GhNode >> data: someData [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> dataFor: aView [
 	<gtView>
 	^ (data isArray ifTrue: [
@@ -41,7 +41,7 @@ GhNode >> dataFor: aView [
 		send: [ :each | self send: each value ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> dictionaryView: aView [
 	^ aView columnedList
 		items: [
@@ -53,7 +53,7 @@ GhNode >> dictionaryView: aView [
 		column: 'Value' text: [ :each | each value ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> gtActionWebBrowseFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -70,7 +70,7 @@ GhNode >> gtActionWebBrowseFor: anAction [
 	^ anAction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> gtDismissNotificationActionFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -85,12 +85,12 @@ GhNode >> gtDismissNotificationActionFor: anAction [
 	^ anAction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> gtDisplayOn: stream [
 	stream nextPutAll: self titleString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> send: each [ 
 	(each isString and: [ each beginsWith: GhSession apiPrefix]) ifTrue: [
 		^ GhNode new data: (GhSession get: (self trimUrl: each))
@@ -101,7 +101,7 @@ GhNode >> send: each [
 	^ each
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> titleString [
 	^ data isDictionary ifTrue: [
 		self titleStringFor: data
@@ -110,7 +110,7 @@ GhNode >> titleString [
 	]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> titleStringFor: d [
 	| s |
 	s := d at: #name ifAbsent: [ nil ].
@@ -121,6 +121,7 @@ GhNode >> titleStringFor: d [
 	s := s ifNil: [ d at: #message ifAbsent: [ nil ] ].
 	s := s ifNil: [ d at: #subject ifPresent: [ :d2 | self titleStringFor: d2 ] ].
 	s := s ifNil: [ d at: #payload ifPresent: [ :d2 | self titleStringFor: d2 ] ].
+	s := s ifNil: [ d at: #comment ifPresent: [ :d2 | self titleStringFor: d2 ] ].
 	s := s ifNil: [ d at: #issue ifPresent: [ :d2 | self titleStringFor: d2 ] ].
 	s := s ifNil: [ d at: #pull_request ifPresent: [ :d2 | self titleStringFor: d2 ] ].
 	s := s ifNil: [ d at: #commits ifPresent: [ :commits | commits size printString , ' commits' ] ].
@@ -128,7 +129,7 @@ GhNode >> titleStringFor: d [
 	^ s
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GhNode >> trimUrl: url [
 	| index |
 	index := url findString: '{'.

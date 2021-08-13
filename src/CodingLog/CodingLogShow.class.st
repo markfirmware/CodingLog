@@ -1,16 +1,16 @@
 Class {
-	#name : #CodingLogShow,
-	#superclass : #Object,
-	#category : #CodingLog
+	#name : 'CodingLogShow',
+	#superclass : 'Object',
+	#category : 'CodingLog'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> codingLoggerInstance [
 	"view the log"
 	CodingLogger instance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> codingLoggerSaveRecordings [
 	"save your log in the
 savedRecordingsSton method which allows
@@ -18,7 +18,7 @@ the log to be saved under source control"
 	CodingLogger saveRecordings
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> methodsSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide labelAndElement
@@ -30,7 +30,7 @@ CodingLogShow >> methodsSlideFor: aSlide [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> newsSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide labelAndElement
@@ -42,7 +42,7 @@ CodingLogShow >> newsSlideFor: aSlide [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> recordingsSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide labelAndElement
@@ -55,7 +55,7 @@ CodingLogShow >> recordingsSlideFor: aSlide [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> saveRecordingsSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide labelAndElement
@@ -68,7 +68,7 @@ CodingLogShow >> saveRecordingsSlideFor: aSlide [
 		]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> someMethods [
 	"inspect this then expand some
 of the methods shown - re-inspect
@@ -78,7 +78,7 @@ recorded under Recordings"
 	#gtView gtPragmas & #list gtReferences
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CodingLogShow >> titleSlideFor: aSlide [
 	<gtSlide>
 	^ aSlide title
