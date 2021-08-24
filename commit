@@ -1,4 +1,4 @@
 #!/bin/bash
 
-git add lepiter/
-git commit -am lepiter
+git add readme.lepiterdb/
+git commit -am readme.lepiterdb
