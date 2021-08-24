@@ -71,6 +71,11 @@ GhIssue >> title [
 ]
 
 { #category : 'accessing' }
+GhIssue >> titleForBuilder: builder [
+	^ self gtDisplayString
+]
+
+{ #category : 'accessing' }
 GhIssue >> updatedAt [
 	^ (data at: #updated_at) asDateAndTime asLocal
 ]

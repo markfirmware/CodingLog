@@ -18,8 +18,8 @@ GhSession class >> client [
 	| client |
 	client := ZnClient new
 		accept: 'application/vnd.github.v3+json,application/vnd.github.baptiste-preview+json'.
-	token notNil ifTrue: [
-		client headerAt: 'Authorization' put: 'token ' , token
+	self token ifNotNil: [
+		client headerAt: 'Authorization' put: 'token ' , self token
 	].
 	^ client
 ]
@@ -163,6 +163,11 @@ GhSession class >> purge: path [
 	| url |
 	url := (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path].
 	cache removeKey: url ifAbsent: []
+]
+
+{ #category : 'accessing' }
+GhSession class >> token [
+	^ token ifNil: [ token := Smalltalk os environment at: #GITHUB_TOKEN ifAbsent: [ nil ] ]
 ]
 
 { #category : 'accessing' }

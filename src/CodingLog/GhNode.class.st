@@ -102,6 +102,11 @@ GhNode >> send: each [
 ]
 
 { #category : 'accessing' }
+GhNode >> titleForBuilder: builder [
+	^ self gtDisplayString
+]
+
+{ #category : 'accessing' }
 GhNode >> titleString [
 	^ data isDictionary ifTrue: [
 		self titleStringFor: data

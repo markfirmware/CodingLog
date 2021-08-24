@@ -167,7 +167,7 @@ CodingLogger >> patchClassesWithPatches: classesWithPatches [
 
 { #category : 'registering' }
 CodingLogger >> start [
-	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel }.
+	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel . CodingLogGtPhlowLabelBuilder }.
 	hidden := Set new.
 	news := OrderedDictionary new.
 	self startFor: CodingLogSignal

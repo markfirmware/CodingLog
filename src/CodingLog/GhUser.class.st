@@ -86,6 +86,11 @@ GhUser >> repos [
 ]
 
 { #category : 'accessing' }
+GhUser >> titleForBuilder: builder [
+	^ data at: #login
+]
+
+{ #category : 'accessing' }
 GhUser >> userName [
 	^ data at: #login
 ]

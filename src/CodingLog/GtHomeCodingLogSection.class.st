@@ -16,11 +16,11 @@ GtHomeCodingLogSection >> create [
 		description: 'Keep track of your coding effort').
 	cardsContainer addChild: (self
 		newHeaderCardWithTitle: 'Repository lepiter readme'
-		description: 'Repository lepiter readme'
+		description: 'Glamorous readme'
 		size: 200@150
 		content:
 			(BrLabel new
-				text: 'Glamorous README';
+				text: 'README';
 				aptitude: BrGlamorousLabelAptitude new
 					bold;
 				padding: (BlInsets all: 20)) asScalableElement
@@ -28,8 +28,10 @@ GtHomeCodingLogSection >> create [
 			dbDir := FileSystem disk workingDirectory parent / 'readme.lepiterdb'.
 			dbNameSegments := dbDir path segments last: (3 min: dbDir path segments size).
 			dbName := String streamContents: [ :s | (Path withAll: dbNameSegments) printPathOn: s ].
-			LeDatabasesRegistry defaultLogicalDatabase properties addRegisteredDirectory: dbDir.
-			LeDatabasesRegistry default defaultLogicalDatabase reload.
+			(LeDatabasesRegistry defaultLogicalDatabase properties isDirectoryRegistered: dbDir) ifFalse: [
+				LeDatabasesRegistry defaultLogicalDatabase properties addRegisteredDirectory: dbDir.
+				LeDatabasesRegistry default defaultLogicalDatabase reload
+			].
 			database := LeDatabasesRegistry default currentLoadedDefaultLogicalDatabase databaseNamed: dbName.
 			startPage := database pageNamed: 'readme'.
 			GtWorldUtility 
