@@ -1,7 +1,7 @@
 Class {
 	#name : 'CodingLogGtPhlowLabelBuilderStatusQuo',
 	#superclass : 'GtPhlowLabelBuilder',
-	#category : 'CodingLog'
+	#category : 'CodingLog-Patches'
 }
 
 { #category : 'accessing' }

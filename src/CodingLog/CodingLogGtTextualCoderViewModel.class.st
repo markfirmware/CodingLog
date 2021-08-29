@@ -1,7 +1,7 @@
 Class {
 	#name : 'CodingLogGtTextualCoderViewModel',
 	#superclass : 'CodingLogGtTextualCoderViewModelStatusQuo',
-	#category : 'CodingLog'
+	#category : 'CodingLog-Patches'
 }
 
 { #category : 'api - expansion' }

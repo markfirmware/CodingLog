@@ -3,7 +3,8 @@ Class {
 	#superclass : 'MemoryLogger',
 	#instVars : [
 		'hidden',
-		'news'
+		'news',
+		'executionCounters'
 	],
 	#category : 'CodingLog'
 }
@@ -59,9 +60,64 @@ CodingLogger class >> savedRecordingsSton [
 ]
 
 { #category : 'accessing' }
+CodingLogger >> activeMethods [
+	^ GtSearchIFixedMethodsFilter new methods: ((executionCounters select: [ :counter |
+		counter count > 0 and: [ (CodingLogger instance isHidden: counter node method) not ] ])
+			collect: [ :counter | counter node method ])
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtActiveFor: aView [ 
+	<gtView>
+	^ aView forward
+		title: 'Active';
+		object: [ self activeMethods ];
+		view: #gtItemsFor:
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtClearActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		label: 'clear';
+		tooltip: 'Clear execution counters';
+		priority: 30;
+		action: [ :aButton |
+			self resetExecutionCounters.
+			aButton phlow fireUpdateWish
+		]
+]
+
+{ #category : 'accessing' }
 CodingLogger >> gtGroupedFor: aView [
 	<gtView>
 	^ aView empty
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtHideActiveActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		label: 'hide';
+		tooltip: 'Hide active methods';
+		priority: 20;
+		action: [ :aButton |
+			self hideActiveMethods.
+			aButton phlow fireUpdateWish
+		]
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtInstallActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		label: 'install';
+		tooltip: 'Install execution counters';
+		priority: 40;
+		action: [ :aButton |
+			self installCoverage.
+			aButton phlow fireUpdateWish
+		]
 ]
 
 { #category : 'accessing' }
@@ -74,26 +130,30 @@ CodingLogger >> gtMethodsFor: aView [
 ]
 
 { #category : 'accessing' }
-CodingLogger >> gtNewsFor: aView [ 
+CodingLogger >> gtNewsFor: aView [
+
 	<gtView>
 	^ aView columnedList
-		title: 'News' translated;
-		priority: 50;
-		items: [ self news values reverse ];
-		column: 'Contents' translated 
-			item: [ :each | each timestamp asDate printString , ' ' , each timestamp asTime print24 , ' markfirmware first viewed ', each printMethod ]
+		  title: 'News' translated;
+		  priority: 50;
+		  items: [ self news values reverse ];
+		  column: 'Contents' translated text: [ :each | 
+			  each timestamp asDate printString , ' '
+			  , each timestamp asTime print24 , ' markfirmware first viewed '
+			  , each printMethod ]
 ]
 
 { #category : 'accessing' }
 CodingLogger >> gtRecordingsFor: aView [
+
 	<gtView>
 	^ aView columnedList
-		title: 'Recordings' translated;
-		priority: 40;
-		items: [ self recordings reverse ];
-		updateWhen: Announcement in: [ self announcer ];
-		column: 'Contents' translated 
-			item: [ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ]
+		  title: 'Recordings' translated;
+		  priority: 40;
+		  items: [ self recordings reverse ];
+		  updateWhen: Announcement in: [ self announcer ];
+		  column: 'Contents' translated text: [ :each | 
+			  String streamContents: [ :s | each printOneLineContentsOn: s ] ]
 ]
 
 { #category : 'accessing' }
@@ -102,13 +162,68 @@ CodingLogger >> gtSaveNewsActionFor: anAction [
 	^ anAction button
 		icon: BrGlamorousIcons savetodisk;
 		tooltip: 'Save news to source code';
-		priority: 1;
+		priority: 50;
 		action: [ :aButton | self class saveNews ]
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtUnhideAllActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		label: 'unhide';
+		tooltip: 'Unhide all methods';
+		priority: 25;
+		action: [ :aButton |
+			self unhideAllMethods.
+			aButton phlow fireUpdateWish
+		]
+]
+
+{ #category : 'accessing' }
+CodingLogger >> gtUpdateActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousIcons refresh;
+		tooltip: 'Update';
+		priority: 1;
+		action: [ :aButton | aButton phlow fireUpdateWish ]
 ]
 
 { #category : 'accessing' }
 CodingLogger >> hide: aMethod [
 	hidden add: aMethod printString
+]
+
+{ #category : 'accessing' }
+CodingLogger >> hideActiveMethods [
+	self activeMethods do: [ :each | self hide: each ]
+]
+
+{ #category : 'accessing' }
+CodingLogger >> initializeWithRecordings: aCollection [
+	super initializeWithRecordings: aCollection.
+	executionCounters := OrderedCollection new
+]
+
+{ #category : 'accessing' }
+CodingLogger >> installCoverage [
+	| methods classes |
+	methods := OrderedCollection new.
+	classes := GtSearchClassesInPackageFilter forPackageNamed: 'CodingLog'.
+	classes do: [ :aClass |
+		methods addAll: aClass methods. methods addAll: aClass class methods
+	].
+
+	executionCounters := OrderedCollection new.
+	methods do: [ :method |
+		method ast links detect: [ :link |
+			link metaObject class == ExecutionCounter
+			] ifOne: [ :link |
+				executionCounters add: link metaObject
+			] ifNone: [
+				executionCounters add: (ExecutionCounter installOn: method ast)
+			]
+		].
 ]
 
 { #category : 'accessing' }
@@ -146,28 +261,13 @@ CodingLogger >> nextPut: aSignal [
 ]
 
 { #category : 'accessing' }
-CodingLogger >> patchClassesWithPatches: classesWithPatches [
-	| withClassSideToo |
-	withClassSideToo := classesWithPatches , (classesWithPatches collect: [ :each | each class ]).
-	withClassSideToo do: [ :classWithPatches | | classWithStatusQuo classToPatch |
-		classWithStatusQuo := classWithPatches superclass.
-		classToPatch := classWithStatusQuo superclass.
-		classWithPatches methods do: [ :method | | selector |
-			selector := method selector.
-    		(classToPatch >> selector) sourceCode = (classWithStatusQuo >> selector) sourceCode ifFalse: [
-    			^ self
-    		]
-    	].
-		classWithPatches methods do: [ :method | | selector |
-			selector := method selector.
-    		classToPatch compile: (classWithPatches >> selector) sourceCode
-    	]
-    ]
+CodingLogger >> resetExecutionCounters [
+	executionCounters do: #reset
 ]
 
 { #category : 'registering' }
 CodingLogger >> start [
-	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel . CodingLogGtPhlowLabelBuilder }.
+	ClPatches applyPatches.
 	hidden := Set new.
 	news := OrderedDictionary new.
 	self startFor: CodingLogSignal
@@ -176,4 +276,9 @@ CodingLogger >> start [
 { #category : 'accessing' }
 CodingLogger >> unhide: aMethod [
 	hidden remove: aMethod printString ifAbsent: []
+]
+
+{ #category : 'accessing' }
+CodingLogger >> unhideAllMethods [
+	hidden copy do: [ :each | self unhide: each ]
 ]

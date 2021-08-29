@@ -2,3 +2,4 @@
 
 git add readme.lepiterdb/
 git commit -am readme.lepiterdb
+git status

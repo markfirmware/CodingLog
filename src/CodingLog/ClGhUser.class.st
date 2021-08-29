@@ -1,19 +1,16 @@
 Class {
-	#name : 'GhUser',
-	#superclass : 'Object',
-	#instVars : [
-		'data'
-	],
-	#category : 'CodingLog'
+	#name : 'ClGhUser',
+	#superclass : 'ClGhApiData',
+	#category : 'CodingLog-GitHub'
 }
 
 { #category : 'accessing' }
-GhUser >> data: dictionary [
-	data := dictionary
+ClGhUser class >> current [
+	^ self new data: (self get: 'user')
 ]
 
 { #category : 'accessing' }
-GhUser >> gtDisplayRunOn: stream [
+ClGhUser >> gtDisplayRunOn: stream [
 	| status |
 	status := self rawData at: #status.
 	stream
@@ -23,14 +20,19 @@ GhUser >> gtDisplayRunOn: stream [
 ]
 
 { #category : 'accessing' }
-GhUser >> gtEventsFor: aView [
+ClGhUser >> gtDisplayString [
+	^ self login
+]
+
+{ #category : 'accessing' }
+ClGhUser >> gtEventsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Events';
 		priority: 20;
-		send: [ :each | GhNode new data: each ];
+		send: [ :each | ClGhApiData new data: each ];
 		items: [
-			((GhSession getArray: 'users/' , self userName , '/events') select: [ :each |
+			((self class getArray: 'users/' , self login , '/events') select: [ :each |
 				(each at: #payload at: #action ifAbsent: [ '' ]) ~= 'closed'
 			]) sorted: [ :a : b |
 				(a at: #created_at) > (b at: #created_at)
@@ -42,55 +44,45 @@ GhUser >> gtEventsFor: aView [
 ]
 
 { #category : 'accessing' }
-GhUser >> gtNotificationsFor: aView [
+ClGhUser >> gtNotificationsFor: aView [
 	<gtView>
 	^ aView list
 		title: 'Notifications';
 		priority: 10;
 		actionUpdateButton;
 		items: [
-			GhSession purge: 'notifications'.
-			GhSession getArray: 'notifications' of: GhNotification sortKey: #updatedAt
+			self class purge: 'notifications'.
+			self class getArray: 'notifications' of: ClGhNotification sortKey: #updatedAt
 		]
 ]
 
 { #category : 'accessing' }
-GhUser >> gtOpenIssuesFor: aView [
+ClGhUser >> gtOpenIssuesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Issues';
 		priority: 30;
-		items: [ (GhSession getArray: 'search/issues?q=author:' , self userName of: GhIssue sortKey: #updatedAt ) select: [ :each | each state = 'open' ]
+		items: [ (self class getArray: 'search/issues?q=author:' , self login of: ClGhIssue sortKey: #updatedAt ) select: [ :each | each state = 'open' ]
 		];
 		column: 'Updated' text: #updatedAt;
 		column: 'Title' text: #title
 ]
 
 { #category : 'accessing' }
-GhUser >> gtReposFor: aView [
+ClGhUser >> gtReposFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Repositories';
 		priority: 40;
 		items: [ self repos ];
-		send: [ :each | GhNode new data: each ];
+		send: [ :each | ClGhApiData new data: each ];
 		column: 'Repo' text: [ :each | each at: #name ];
 		column: 'Description' text: [ :each | each at: #description ];
 		column: 'Open issues' text: [ :each | each at: #open_issues_count ]
 ]
 
 { #category : 'accessing' }
-GhUser >> repos [
-	^ (GhSession getArray: 'user/repos')
+ClGhUser >> repos [
+	^ (self class getArray: 'user/repos')
 		sorted: [ :a :b | (a at: #name) asLowercase < (b at: #name) asLowercase ]
-]
-
-{ #category : 'accessing' }
-GhUser >> titleForBuilder: builder [
-	^ data at: #login
-]
-
-{ #category : 'accessing' }
-GhUser >> userName [
-	^ data at: #login
 ]

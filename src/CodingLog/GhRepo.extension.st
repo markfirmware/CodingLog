@@ -17,8 +17,3 @@ GhRepo >> gtWorkflowsFor: aView [
 		priority: 10;
 		items: [ self workflows ]
 ]
-
-{ #category : '*CodingLog' }
-GhRepo >> workflows [
-	^ GhUnknownGroup new rawData: ((GhSession create: GhUnknownEntity from: (rawData at: #url) , '/actions/workflows') rawData at: #workflows)
-]

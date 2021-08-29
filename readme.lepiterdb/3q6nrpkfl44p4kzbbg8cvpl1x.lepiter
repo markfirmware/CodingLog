@@ -29,14 +29,14 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-10T23:34:44.334098-04:00"
+						"dateAndTimeString" : "2021-08-30T05:39:41.362632-04:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
 					"uidString" : "L5P7jomFDQCdy7m6Coc62g=="
 				},
-				"code" : "GhSession purge.\rGhUser new data: GhSession user"
+				"code" : "ClGhUser purge; current"
 			},
 			{
 				"__type" : "pharoSnippet",
@@ -63,82 +63,14 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-09T18:44:13.822678-04:00"
+						"dateAndTimeString" : "2021-08-28T23:23:55.501978-04:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
 					"uidString" : "faEE3ImFDQC3GRJCCqR0xg=="
 				},
-				"code" : "GhUser new data: GhSession user"
-			},
-			{
-				"__type" : "pharoSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-11T03:12:07.004736-04:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-12T19:49:39.768455-04:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "kTKyEqWFDQC4RcD4CQBKSg=="
-				},
-				"code" : "GhSession purge.\rGhNode new data: (GhSession get: 'notifications')"
-			},
-			{
-				"__type" : "pharoSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-11T03:32:22.534727-04:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2021-08-11T03:32:41.85627-04:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "nrYlW6WFDQC4TzMrCQBKSg=="
-				},
-				"code" : "GhNode user"
+				"code" : "ClGhUser current"
 			},
 			{
 				"__type" : "pharoSnippet",
@@ -173,6 +105,74 @@
 					"uidString" : "eINKXKaFDQC4fzz0CQBKSg=="
 				},
 				"code" : "#gtAction gtPragmas & #web gtSubstringMatch"
+			},
+			{
+				"__type" : "pharoSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2021-08-26T18:41:35.215211-04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2021-08-26T18:46:14.060319-04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "Li9czt+GDQCFijsfB5yxsw=="
+				},
+				"code" : "#gtView gtPragmas & #columnedTree gtReferences"
+			},
+			{
+				"__type" : "pharoSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2021-09-10T12:02:14.730907-04:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2021-09-10T12:02:24.326416-04:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "EdXS+QeIDQC7xSyfAtUu1A=="
+				},
+				"code" : "CodingLogger instance"
 			}
 		]
 	},
@@ -195,12 +195,12 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2021-07-31T17:42:57.470345-04:00"
+			"dateAndTimeString" : "2021-09-09T21:53:03.378534-04:00"
 		}
 	},
 	"pageType" : {
-		"__type" : "unnamedPage",
-		"defaultTitle" : "Playground"
+		"__type" : "namedPage",
+		"title" : "gh api"
 	},
 	"uid" : {
 		"__type" : "uuid",
