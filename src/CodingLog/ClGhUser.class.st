@@ -1,15 +1,15 @@
 Class {
-	#name : 'ClGhUser',
-	#superclass : 'ClGhApiData',
+	#name : #ClGhUser,
+	#superclass : #ClGhApiData,
 	#category : 'CodingLog-GitHub'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser class >> current [
 	^ self new data: (self get: 'user')
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtDisplayRunOn: stream [
 	| status |
 	status := self rawData at: #status.
@@ -19,12 +19,12 @@ ClGhUser >> gtDisplayRunOn: stream [
 		nextPutAll: (status = 'completed' ifTrue: [(self rawData at: #conclusion)] ifFalse: [status])
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtDisplayString [
 	^ self login
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtEventsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -43,7 +43,7 @@ ClGhUser >> gtEventsFor: aView [
 		column: 'Actor' text: [ :each | each at: #actor at: #display_login ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtNotificationsFor: aView [
 	<gtView>
 	^ aView list
@@ -56,19 +56,19 @@ ClGhUser >> gtNotificationsFor: aView [
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtOpenIssuesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Issues';
 		priority: 30;
-		items: [ (self class getArray: 'search/issues?q=author:' , self login of: ClGhIssue sortKey: #updatedAt ) select: [ :each | each state = 'open' ]
+		items: [ (self class getArray: 'search/issues?q=author:' , self login of: ClGhIssue sortKey: #updatedAt ) select: [ :each | each state = 'open' or: [ each updatedAt >= (DateAndTime today - 7 days) ] ]
 		];
 		column: 'Updated' text: #updatedAt;
 		column: 'Title' text: #title
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> gtReposFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -81,7 +81,7 @@ ClGhUser >> gtReposFor: aView [
 		column: 'Open issues' text: [ :each | each at: #open_issues_count ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhUser >> repos [
 	^ (self class getArray: 'user/repos')
 		sorted: [ :a :b | (a at: #name) asLowercase < (b at: #name) asLowercase ]

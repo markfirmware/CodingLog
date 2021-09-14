@@ -1,25 +1,25 @@
 Class {
-	#name : 'CodingLogSignal',
-	#superclass : 'BeaconSignal',
+	#name : #CodingLogSignal,
+	#superclass : #BeaconSignal,
 	#category : 'CodingLog'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogSignal >> isMethodSignal [
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogSignal >> print [
 	^ self properties at: #print
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogSignal >> print: aString [
 	self properties at: #print put: aString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogSignal >> printOneLineContentsOn: stream [
 	stream nextPutAll: self print
 ]

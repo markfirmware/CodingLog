@@ -1,6 +1,6 @@
 Class {
-	#name : 'ClGhApiData',
-	#superclass : 'Object',
+	#name : #ClGhApiData,
+	#superclass : #Object,
 	#instVars : [
 		'data'
 	],
@@ -8,20 +8,20 @@ Class {
 		'cache',
 		'token'
 	],
-	#category : 'CodingLog-GitHub'
+	#category : #'CodingLog-GitHub'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> apiPrefix [
 	^ 'https://api.github.com/'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> cache [
 	^ cache
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> client [
 	| client |
 	client := ZnClient new
@@ -32,17 +32,17 @@ ClGhApiData class >> client [
 	^ client
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> defaultPageSize [
 	^ 30
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> fullUrl: path [
 	^ (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> get: path [
 	| url |
 	url := self fullUrl: path.
@@ -78,19 +78,19 @@ ClGhApiData class >> get: path [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> getArray: path [
 	| url |
 	url := self fullUrl: path.
 	^ self cache at: url ifAbsentPut: [ self items: url ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> getArray: path of: aClass sortKey: selector [ 
 	^ ((self getArray: path) collect: [ :each | aClass new data: each ]) sorted: [ :a :b | (a perform: selector) > (b perform: selector) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> getDictionary: path [
 	| url |
 	url := self fullUrl: path.
@@ -105,23 +105,23 @@ ClGhApiData class >> getDictionary: path [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> getDictionary: path of: aClass [
 	^ aClass new data: (self getDictionary: path)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> initialize [
 	super initialize.
 	cache := Dictionary new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> items: url [
 	^ self items: OrderedCollection new pageNumber: 1 url: url
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> items: items pageNumber: pageNumber url: url [
 	| marker |
 	marker := (url findString: '?') = 0 ifTrue: ['?'] ifFalse: ['&'].
@@ -147,12 +147,12 @@ ClGhApiData class >> items: items pageNumber: pageNumber url: url [
 		onError: [ self halt. items asArray ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> pageSize [
 	^ 100
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> patch: path [
 	| url |
 	url := (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path].
@@ -161,45 +161,45 @@ ClGhApiData class >> patch: path [
 		patch
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> purge [
 	cache removeAll
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> purge: path [
 	| url |
 	url := (path beginsWith: self apiPrefix) ifTrue: [path] ifFalse: [self apiPrefix , path].
 	cache removeKey: url ifAbsent: []
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> token [
 	^ token ifNil: [ token := Smalltalk os environment at: #GITHUB_TOKEN ifAbsent: [ nil ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData class >> token: aToken [
 	token := aToken
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> arrayView: aView [
 	^ aView list
 		items: data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> body [
 	^ data at: #body
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> commentsUrl [
 	^ data at: #comments_url
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> data: someData [
 	data := someData isArray ifTrue: [
 		(someData collect: [ :each |
@@ -210,7 +210,7 @@ ClGhApiData >> data: someData [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> dictionaryView: aView [
 	^ aView columnedTree
 		items: [ data associations sorted: [ :a :b |
@@ -226,7 +226,7 @@ ClGhApiData >> dictionaryView: aView [
 		column: 'Value' text: [ :assoc | assoc value ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> gtActionHtmlUrlFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -243,7 +243,7 @@ ClGhApiData >> gtActionHtmlUrlFor: anAction [
 	^ anAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> gtDataFor: aView [
 	<gtView>
 	^ (data isArray ifTrue: [
@@ -256,7 +256,7 @@ ClGhApiData >> gtDataFor: aView [
 		send: [ :each | self send: each value ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> gtDismissNotificationActionFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -271,22 +271,27 @@ ClGhApiData >> gtDismissNotificationActionFor: anAction [
 	^ anAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> gtDisplayOn: stream [
 	stream nextPutAll: self titleString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
+ClGhApiData >> gtInspectorTitleString [
+	^ self gtDisplayString
+]
+
+{ #category : #accessing }
 ClGhApiData >> htmlUrl [
 	^ data at: #html_url
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> login [
 	^ data at: #login
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> send: each [ 
 	(each isString and: [ each beginsWith: self class apiPrefix]) ifTrue: [
 		^ ClGhApiData new data: (self class get: (self trimUrl: each))
@@ -297,22 +302,17 @@ ClGhApiData >> send: each [
 	^ each
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> state [
 	^ data at: #state
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> title [
 	^ data at: #title
 ]
 
-{ #category : 'accessing' }
-ClGhApiData >> titleForBuilder: builder [
-	^ self gtTitleString
-]
-
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> titleString [
 	^ data isDictionary ifTrue: [
 		self titleStringFor: data
@@ -321,7 +321,7 @@ ClGhApiData >> titleString [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> titleStringFor: d [
 	| s |
 	s := d at: #name ifAbsent: [ nil ].
@@ -340,14 +340,14 @@ ClGhApiData >> titleStringFor: d [
 	^ s
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> trimUrl: url [
 	| index |
 	index := url findString: '{'.
 	^ index = 0 ifTrue: [ url ] ifFalse: [ url copyFrom: 1 to: index - 1 ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhApiData >> updatedAt [
 	^ (data at: #updated_at) asDateAndTime asLocal
 ]

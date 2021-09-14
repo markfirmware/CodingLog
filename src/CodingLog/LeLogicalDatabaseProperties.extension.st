@@ -1,6 +1,6 @@
-Extension { #name : 'LeLogicalDatabaseProperties' }
+Extension { #name : #LeLogicalDatabaseProperties }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 LeLogicalDatabaseProperties >> isDirectoryRegistered: aFileReference [ 
 	^ ((self registeredDatabaseDirectories collect: #resolve) includes: aFileReference asFileReference resolve)
 ]

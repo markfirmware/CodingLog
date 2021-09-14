@@ -1,15 +1,15 @@
 Class {
-	#name : 'ClGhIssue',
-	#superclass : 'ClGhApiData',
+	#name : #ClGhIssue,
+	#superclass : #ClGhApiData,
 	#category : 'CodingLog-GitHub'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhIssue >> gtDisplayString [
 	^ self title
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhIssue >> gtOverviewFor: aView [
 	<gtView>
 	^ aView list

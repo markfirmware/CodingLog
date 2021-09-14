@@ -1,1 +1,1 @@
-Package { #name : 'CodingLog' }
+Package { #name : #CodingLog }

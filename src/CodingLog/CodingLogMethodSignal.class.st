@@ -1,30 +1,30 @@
 Class {
-	#name : 'CodingLogMethodSignal',
-	#superclass : 'CodingLogSignal',
+	#name : #CodingLogMethodSignal,
+	#superclass : #CodingLogSignal,
 	#category : 'CodingLog'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> classIsMeta [
 	^ self properties at: #classIsMeta
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> classIsMeta: aBoolean [
 	self properties at: #classIsMeta put: aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> className [
 	^ self properties at: #className
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> className: aSymbol [
 	self properties at: #className put: aSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> compiledMethod [
 	| class |
 	class := Smalltalk at: self className.
@@ -34,7 +34,7 @@ CodingLogMethodSignal >> compiledMethod [
 	^ class methodNamed: self selector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> compiledMethodExists [
 	[ self compiledMethod]
 		on: Exception
@@ -42,17 +42,17 @@ CodingLogMethodSignal >> compiledMethodExists [
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> expanded [
 	^ self properties at: #expanded
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> expanded: aBoolean [
 	^ self properties at: #expanded put: aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> gtMethodFor: aView [ 
 	<gtView>
 	self compiledMethodExists ifFalse: [
@@ -65,12 +65,12 @@ CodingLogMethodSignal >> gtMethodFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> isMethodSignal [
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> method: aMethod expanded: aBoolean [
 	self className:  aMethod methodClass instanceSide name.
 	self classIsMeta: aMethod methodClass isMeta.
@@ -78,19 +78,19 @@ CodingLogMethodSignal >> method: aMethod expanded: aBoolean [
 	self expanded: aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> printMethod [
 	^ String streamContents: [ :s | self printMethodOn: s ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> printMethodOn: stream [
 	stream nextPutAll: self className;
 	nextPutAll: (self classIsMeta ifTrue: [' class'] ifFalse: [ '' ]);
 	nextPutAll: '>>';	nextPutAll: self selector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> printOneLineContentsOn: stream [
 	self compiledMethodExists ifTrue: [
 		stream nextPutAll: self compiledMethod printString
@@ -100,12 +100,12 @@ CodingLogMethodSignal >> printOneLineContentsOn: stream [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> selector [
 	^ self properties at: #selector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogMethodSignal >> selector: aSymbol [
 	self properties at: #selector put: aSymbol
 ]

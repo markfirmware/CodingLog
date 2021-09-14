@@ -1,6 +1,6 @@
-Extension { #name : 'GtHome' }
+Extension { #name : #GtHome }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 GtHome >> codingLogSection [
 	<gtHomeSection>
 	^ GtHomeCodingLogSection new 

@@ -1,10 +1,10 @@
 Class {
-	#name : 'ClGhNotification',
-	#superclass : 'ClGhApiData',
+	#name : #ClGhNotification,
+	#superclass : #ClGhApiData,
 	#category : 'CodingLog-GitHub'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> gtActionOpenCheckSuiteFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -21,7 +21,7 @@ ClGhNotification >> gtActionOpenCheckSuiteFor: anAction [
 	^ anAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> gtActionOpenReleaseFor: anAction [
 	<gtAction>
 	data isDictionary ifTrue: [
@@ -38,7 +38,7 @@ ClGhNotification >> gtActionOpenReleaseFor: anAction [
 	^ anAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> gtDismissNotificationActionFor: anAction [
 	<gtAction>
 	self unread ifFalse: [ ^ anAction ].
@@ -49,7 +49,7 @@ ClGhNotification >> gtDismissNotificationActionFor: anAction [
 		action: [ :aButton | self requestDismissal ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> gtDisplayOn: stream [
 	stream
 		nextPutAll: self updatedAt printString;
@@ -59,47 +59,47 @@ ClGhNotification >> gtDisplayOn: stream [
 		nextPutAll: self subjectTitle
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> isSubjectTypeCheckSuite [
 	^ self subjectType = 'CheckSuite'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> isSubjectTypeRelease [
 	^ self subjectType = 'Release'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> repository [
 	^ data at: #repository
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> requestDismissal [
 	self class patch: self url
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> subject [
 	^ data at: #subject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> subjectTitle [
 	^ self subject at: #title
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> subjectType [
 	^self subject at: #type
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> unread [
 	^ data at: #unread
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClGhNotification >> url [
 	^ data at: #url
 ]

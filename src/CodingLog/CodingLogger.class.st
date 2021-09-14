@@ -1,25 +1,25 @@
 Class {
-	#name : 'CodingLogger',
-	#superclass : 'MemoryLogger',
+	#name : #CodingLogger,
+	#superclass : #MemoryLogger,
 	#instVars : [
 		'hidden',
 		'news',
 		'executionCounters'
 	],
-	#category : 'CodingLog'
+	#category : #CodingLog
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> eraseInstanceRecordings [
 	^ self instance reset
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> initialize [
 	self start
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> instance [
 	instance ifNil: [
 		instance := self withRecordings: (STON fromString: self savedRecordingsSton).
@@ -29,44 +29,44 @@ CodingLogger class >> instance [
 	^ super instance
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> method: aMethod expanded: aBoolean [
 	CodingLogMethodSignal new method: aMethod expanded: aBoolean; emit
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> print: anObject [
 	CodingLogSignal new print: anObject; emit
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> saveNews [
 	^ self class >> (self class compile: 'savedNewsSton', String cr, String tab, '^ ', (STON toString: self instance news) printString)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> saveRecordings [
 	^ self class >> (self class compile: 'savedRecordingsSton', String cr, String tab, '^ ', (STON toString: self instance recordings) printString)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> savedNewsSton [
 	^ 'OrderedDictionary{}'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger class >> savedRecordingsSton [
 	^ 'OrderedCollection[]'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> activeMethods [
-	^ GtSearchIFixedMethodsFilter new methods: ((executionCounters select: [ :counter |
+	^ GtSearchFixedMethodsFilter new methods: ((executionCounters select: [ :counter |
 		counter count > 0 and: [ (CodingLogger instance isHidden: counter node method) not ] ])
 			collect: [ :counter | counter node method ])
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtActiveFor: aView [ 
 	<gtView>
 	^ aView forward
@@ -75,7 +75,7 @@ CodingLogger >> gtActiveFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtClearActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -88,13 +88,13 @@ CodingLogger >> gtClearActionFor: anAction [
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtGroupedFor: aView [
 	<gtView>
 	^ aView empty
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtHideActiveActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -107,7 +107,7 @@ CodingLogger >> gtHideActiveActionFor: anAction [
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtInstallActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -120,7 +120,7 @@ CodingLogger >> gtInstallActionFor: anAction [
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtMethodsFor: aView [ 
 	<gtView>
 	^ aView forward
@@ -129,44 +129,44 @@ CodingLogger >> gtMethodsFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtNewsFor: aView [
 
 	<gtView>
-	^ aView columnedList
+	^ aView list
 		  title: 'News' translated;
 		  priority: 50;
 		  items: [ self news values reverse ];
-		  column: 'Contents' translated text: [ :each | 
+		  itemText: [ :each | 
 			  each timestamp asDate printString , ' '
 			  , each timestamp asTime print24 , ' markfirmware first viewed '
 			  , each printMethod ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtRecordingsFor: aView [
 
 	<gtView>
-	^ aView columnedList
+	^ aView list
 		  title: 'Recordings' translated;
 		  priority: 40;
 		  items: [ self recordings reverse ];
 		  updateWhen: Announcement in: [ self announcer ];
-		  column: 'Contents' translated text: [ :each | 
+		  itemText: [ :each | 
 			  String streamContents: [ :s | each printOneLineContentsOn: s ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtSaveNewsActionFor: anAction [
 	<gtAction>
 	^ anAction button
 		icon: BrGlamorousIcons savetodisk;
 		tooltip: 'Save news to source code';
-		priority: 50;
+		priority:2 / 10;
 		action: [ :aButton | self class saveNews ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtUnhideAllActionFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -179,33 +179,33 @@ CodingLogger >> gtUnhideAllActionFor: anAction [
 		]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> gtUpdateActionFor: anAction [
 	<gtAction>
 	^ anAction button
 		icon: BrGlamorousIcons refresh;
 		tooltip: 'Update';
-		priority: 1;
+		priority: 1 / 10;
 		action: [ :aButton | aButton phlow fireUpdateWish ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> hide: aMethod [
 	hidden add: aMethod printString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> hideActiveMethods [
 	self activeMethods do: [ :each | self hide: each ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> initializeWithRecordings: aCollection [
 	super initializeWithRecordings: aCollection.
 	executionCounters := OrderedCollection new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> installCoverage [
 	| methods classes |
 	methods := OrderedCollection new.
@@ -226,28 +226,28 @@ CodingLogger >> installCoverage [
 		].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> isHidden: aMethod [
 	^ hidden includes: aMethod printString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> methods [
-	^ GtSearchIFixedMethodsFilter new methods:
+	^ GtSearchFixedMethodsFilter new methods:
 		((self recordings select: [:each | each isMethodSignal and: [ each compiledMethodExists and: [ each expanded and: [ (self isHidden: each compiledMethod) not ] ] ] ]) collect: [:each | each compiledMethod ]) asIdentitySet asOrderedCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> news [
 	^ news
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> news: someNews [
 	news := someNews
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> nextPut: aSignal [
 	(aSignal isMethodSignal not or: [ aSignal expanded ]) ifTrue: [ | key |
 		super nextPut: aSignal.
@@ -260,12 +260,12 @@ CodingLogger >> nextPut: aSignal [
 	]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> resetExecutionCounters [
 	executionCounters do: #reset
 ]
 
-{ #category : 'registering' }
+{ #category : #registering }
 CodingLogger >> start [
 	ClPatches applyPatches.
 	hidden := Set new.
@@ -273,12 +273,12 @@ CodingLogger >> start [
 	self startFor: CodingLogSignal
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> unhide: aMethod [
 	hidden remove: aMethod printString ifAbsent: []
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CodingLogger >> unhideAllMethods [
 	hidden copy do: [ :each | self unhide: each ]
 ]

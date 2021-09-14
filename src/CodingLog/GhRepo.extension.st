@@ -1,6 +1,6 @@
-Extension { #name : 'GhRepo' }
+Extension { #name : #GhRepo }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 GhRepo >> gtWorkflowRunsFor: aView [
 	<gtView>
 	^ aView list
@@ -9,7 +9,7 @@ GhRepo >> gtWorkflowRunsFor: aView [
 		items: [ self workflowRuns ]
 ]
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 GhRepo >> gtWorkflowsFor: aView [
 	<gtView>
 	^ aView list

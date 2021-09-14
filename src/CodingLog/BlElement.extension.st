@@ -1,6 +1,6 @@
-Extension { #name : 'BlElement' }
+Extension { #name : #BlElement }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 BlElement >> codingLogActions: sum on: it [
 	it isVisible ifFalse: [ ^ sum ].
 	it children do: [ :each |
@@ -18,7 +18,7 @@ BlElement >> codingLogActions: sum on: it [
 	^ sum
 ]
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 BlElement >> gtCodingLogActionsFor: aView [
 	<gtView>
 	^ aView list
@@ -27,7 +27,7 @@ BlElement >> gtCodingLogActionsFor: aView [
 		items: [ self codingLogActions: OrderedCollection new on: self ]
 ]
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 BlElement >> isCodingLogAction: x [
 	^ (x isKindOf: GtCoderAction) | (x isKindOf: GtPhlowAction)
 ]

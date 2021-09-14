@@ -1,24 +1,24 @@
 Class {
-	#name : 'ClPatches',
-	#superclass : 'Object',
+	#name : #ClPatches,
+	#superclass : #Object,
 	#classVars : [
 		'isApplied'
 	],
 	#category : 'CodingLog-Patches'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClPatches class >> applyPatches [
-	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel . CodingLogGtPhlowLabelBuilder }.
+	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel . ClGt4Git }.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClPatches class >> initialize [
 	super initialize.
 	isApplied := false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ClPatches class >> patchClassesWithPatches: classesWithPatches [
 	| withClassSideToo |
 	withClassSideToo := classesWithPatches , (classesWithPatches collect: [ :each | each class ]).

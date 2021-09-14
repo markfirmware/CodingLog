@@ -1,6 +1,6 @@
-Extension { #name : 'GtPhlowTooltipNullBuilder' }
+Extension { #name : #GtPhlowTooltipNullBuilder }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 GtPhlowTooltipNullBuilder >> text [
 	^ ''
 ]

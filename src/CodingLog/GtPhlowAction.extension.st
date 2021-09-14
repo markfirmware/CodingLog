@@ -1,6 +1,6 @@
-Extension { #name : 'GtPhlowAction' }
+Extension { #name : #GtPhlowAction }
 
-{ #category : '*CodingLog' }
+{ #category : #'*CodingLog' }
 GtPhlowAction >> printOn: aStream [
 	super printOn: aStream.
 	aStream
