@@ -1,7 +1,7 @@
 Class {
 	#name : #CodingLogShow,
 	#superclass : #Object,
-	#category : 'CodingLog'
+	#category : #'CodingLog-Logging'
 }
 
 { #category : #accessing }

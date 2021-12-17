@@ -6,7 +6,7 @@ Class {
 		'news',
 		'executionCounters'
 	],
-	#category : #CodingLog
+	#category : #'CodingLog-Logging'
 }
 
 { #category : #accessing }
@@ -267,7 +267,6 @@ CodingLogger >> resetExecutionCounters [
 
 { #category : #registering }
 CodingLogger >> start [
-	ClPatches applyPatches.
 	hidden := Set new.
 	news := OrderedDictionary new.
 	self startFor: CodingLogSignal

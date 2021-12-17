@@ -1,11 +1,11 @@
 Class {
-	#name : #CodingLogGtTextualCoderViewModel,
-	#superclass : #CodingLogGtTextualCoderViewModelStatusQuo,
-	#category : 'CodingLog-Patches'
+	#name : #GtTextualCoderViewModelClPatch,
+	#superclass : #GtTextualCoderViewModelClPrereq,
+	#category : #'CodingLog-Patches'
 }
 
 { #category : #'api - expansion' }
-CodingLogGtTextualCoderViewModel >> expanded: aBoolean [
+GtTextualCoderViewModelClPatch >> expanded: aBoolean [
 	expanded = aBoolean
 		ifTrue: [ ^ self ].
 

@@ -8,14 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-ClPatches class >> applyPatches [
-	self patchClassesWithPatches: { CodingLogGtTextualCoderViewModel . ClGt4Git }.
-]
-
-{ #category : #accessing }
 ClPatches class >> initialize [
-	super initialize.
-	isApplied := false
+	isApplied := false.
+	self patchClassesWithPatches: { GtTextualCoderViewModelClPatch . Gt4GitClPatch }.
+	isApplied := true
+	
 ]
 
 { #category : #accessing }

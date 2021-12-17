@@ -1,7 +1,7 @@
 Class {
 	#name : #CodingLogMethodSignal,
 	#superclass : #CodingLogSignal,
-	#category : 'CodingLog'
+	#category : #'CodingLog-Logging'
 }
 
 { #category : #accessing }

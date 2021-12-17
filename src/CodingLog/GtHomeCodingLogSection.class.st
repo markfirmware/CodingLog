@@ -5,7 +5,7 @@ Class {
 		'cardsContainer',
 		'sectionContainer'
 	],
-	#category : #CodingLog
+	#category : #'CodingLog-Logging'
 }
 
 { #category : #accessing }
